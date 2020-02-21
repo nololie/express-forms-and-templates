@@ -12,6 +12,9 @@ const client = new Client();
 
 client.connect();
 
+app.set('view engine', 'pug')
+app.set('./views', path.join(__dirname, './Express.pug'))
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('.'));
 
@@ -31,14 +34,15 @@ app.get('/new_visit', function(req, res) {
 app.post('/addnew_visit', function(req, res) {
 
     addNewVisitor(req.body.visitorName, req.body.assistentName, req.body.age, req.body.date, req.body.time, req.body.comments)
-    res.send(`Thanks for the info! The following was saved to the database:\n
-    Visitor name: ${req.body.visitorName}\n
-    Assistant name: ${req.body.assistentName}\n
-    Visitor age: ${req.body.age}\n
-    Visit date: ${req.body.date}\n
-    Visit time: ${req.body.time}\n
-    Comments: ${req.body.comments}
-    `)
+    res.render('Express', {
+        visitorName: req.body.visitorName,
+        assistentName: req.body.assistentName,
+        age: req.body.age,
+        date: req.body.date,
+        time: req.body.time,
+        comments: req.body.comments
+    })
+
 });
 
 
