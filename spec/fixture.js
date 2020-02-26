@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+const html =
+    `<!DOCTYPE html>
 
 <head>
     <title>Visitor Form</title>
@@ -23,4 +24,5 @@
     </form>
 </body>
 
-</html>
+</html>`
+module.exports = html;

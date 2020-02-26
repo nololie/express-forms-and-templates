@@ -3,7 +3,7 @@
 const express = require('express');
 const { Client } = require("pg");
 const path = require('path');
-require('dotenv').config()
+require('dotenv').config();
 
 const app = express();
 const port = 1221;
@@ -16,7 +16,7 @@ app.set('view engine', 'pug')
 app.set('./views', path.join(__dirname, './Express.pug'))
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('.'));
+app.use(express.static('../'));
 
 
 app.get('/new_visit', function(req, res) {
@@ -29,22 +29,6 @@ app.get('/new_visit', function(req, res) {
 
     });
 });
-
-
-app.post('/addnew_visit', function(req, res) {
-
-    addNewVisitor(req.body.visitorName, req.body.assistentName, req.body.age, req.body.date, req.body.time, req.body.comments)
-    res.render('Express', {
-        visitorName: req.body.visitorName,
-        assistentName: req.body.assistentName,
-        age: req.body.age,
-        date: req.body.date,
-        time: req.body.time,
-        comments: req.body.comments
-    })
-
-});
-
 
 const addNewVisitor = async(name, assistant_name, age, visit_date, visit_time, comments) => {
     try {
@@ -73,4 +57,21 @@ const addNewVisitor = async(name, assistant_name, age, visit_date, visit_time, c
 };
 
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.post('/addnew_visit', function(req, res) {
+
+    addNewVisitor(req.body.visitorName, req.body.assistentName, req.body.age, req.body.date, req.body.time, req.body.comments)
+
+    res.render('Express', {
+        visitorName: req.body.visitorName,
+        asistentName: req.body.assistentName,
+        visitorAge: req.body.age,
+        visitDate: req.body.date,
+        visitTime: req.body.time,
+        comments: req.body.comments
+    });
+
+});
+
+let server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+module.exports = server;
