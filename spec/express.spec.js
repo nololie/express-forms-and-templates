@@ -1,6 +1,6 @@
 const fixture = require('./fixture');
-const axios = require('axios');
-const readline = require('readline');
+const axios = require('axios'); // Find out more about axios and how it can be used.
+const readline = require('readline'); // Find out more about readline and how it can be used.
 
 let server;
 
