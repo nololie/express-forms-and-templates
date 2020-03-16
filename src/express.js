@@ -1,32 +1,33 @@
 'use strict';
 
-const express = require('express'); // Find out more about "Express methods" and how they work.
-const path = require('path'); // Find out more about "path methods" and how they work.
+const express = require('express');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
 const port = 1221;
-
-const { Client } = require("pg"); // Find out more about "pg methods" and how they work.
+const { Client } = require("pg");
 const client = new Client();
 client.connect();
 
+
 app.set('view engine', 'pug')
-app.set('views', path.join(__dirname, 'views/')) // Find out more about "app.set" and how it works.
+app.set('views', path.join(__dirname, 'views/'));
+
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('.')); // Find out more about "app.use" and how it works.
+app.use(express.static('.'));
+
 
 app.get('/new_visit', function(req, res) {
     res.sendFile(path.join(__dirname + '/../index.html'), (err) => {
-
         if (err) {
             console.log("file not found")
             throw (err);
         }
-
     });
-}); // Find out more about "app.get" and how it works.
+});
+
 
 const addNewVisitor = async(name, assistant_name, age, visit_date, visit_time, comments) => {
     try {
@@ -54,8 +55,8 @@ const addNewVisitor = async(name, assistant_name, age, visit_date, visit_time, c
     }
 };
 
-app.post('/addnew_visit', async(req, res) => {
 
+app.post('/addnew_visit', async(req, res) => {
     let record = await addNewVisitor(req.body.visitorName, req.body.assistentName, req.body.age, req.body.date, req.body.time, req.body.comments)
     res.render('Express.pug', {
         VisitorID: record[0].visitorid,
@@ -66,9 +67,10 @@ app.post('/addnew_visit', async(req, res) => {
         visitTime: record[0].visittime,
         comments: record[0].comments
     });
+});
 
-}); // Find out more about "app.post" and how it works.
 
-let server = app.listen(port, () => console.log(`Example app listening on port ${port}!`)); // Find out more about "app.listen" and how it works.
+let server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
 
 module.exports = server;
